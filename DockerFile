@@ -1,0 +1,19 @@
+FROM node:23-alpine
+
+WORKDIR /app
+
+COPY ./package.json ./package.json
+COPY ./package-lock.json ./package-lock.json
+
+RUN npm install
+COPY . . 
+
+ENV DATABASE_URL = "postgresql://neondb_owner:npg_rqHfA9OoZI2X@ep-curly-band-a8qt1x9x-pooler.eastus2.azure.neon.tech/neondb?sslmode=require"
+
+
+RUN npx prisma migrate dev 
+RUN npx prisma generate 
+RUN npx run build
+
+CMD [ "npm","start" ]
+
