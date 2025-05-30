@@ -1,4 +1,4 @@
-FROM node:23-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -9,14 +9,9 @@ RUN npm install
 
 COPY . .
 
-ENV DATABASE_URL="postgresql://neondb_owner:npg_rqHfA9OoZI2X@ep-curly-band-a8qt1x9x-pooler.eastus2.azure.neon.tech/neondb?sslmode=require"
-
-# Use migrate deploy instead of dev
 RUN npx prisma generate
-RUN npx prisma migrate deploy
-
 RUN npm run build
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD ["npm", "run", "dev:docker"]
